@@ -300,5 +300,78 @@ As you can see it loaded successfully
 ![image](https://user-images.githubusercontent.com/41279178/111147398-41382600-85ac-11eb-9bd1-47912f019ba9.png)
 
 
+# Working with modern JavaScript
+Before moving forward we need to install a bunch of packages:
+
+* babel core, the actual engine
+* babel preset env for compiling modern Javascript down to ES5
+* babel loader for webpack
+Let's pull in the dependencies:
+```bash
+yarn add -D @babel/core babel-loader @babel/preset-env 
+```
+
+Then create ``` babel.config.json``` file and add following configuration
+```bash
+{
+  "presets": [
+    "@babel/preset-env"
+  ]
+}
+```
+#### @babel/preset-env is a collection of babel plugins to transform modern JavaScript code, depending on the target browser we specify in the configuration.
+
+![image](https://user-images.githubusercontent.com/41279178/111152293-5fa12000-85b2-11eb-86e8-3b993cdbe5c2.png)
+
+Now add webpack configuration for `@babel/preset-env`
+```bash
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+
+module.exports = {
+  entry: { index: path.resolve(__dirname, "src/index.js") },
+  output: {
+        path: path.resolve(__dirname, "build")
+    },
+  module: {
+        rules: [
+            {
+                test: /\.scss$/,
+                use: ["style-loader", "css-loader", "sass-loader"]
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: ["babel-loader"]
+            }
+        ]
+    },
+  plugins: [
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, "public/index.html")
+        })
+    ]
+};
+
+```
+
+Install babel for React 
+
+```bash 
+yarn add -D @babel/core babel-loader @babel/preset-env @babel/preset-react
+```
+
+Install react
+
+```bash
+yarn add react react-dom
+```
+
+
+```bash
+yarn add -D webpack-merge mini-css-extract-plugin
+```
+
+
 Create folder webpack with three files inside.
 ![image](https://user-images.githubusercontent.com/41279178/111134311-4fcb1100-859d-11eb-8ae4-86c344ab8472.png)
