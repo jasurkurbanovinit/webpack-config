@@ -240,9 +240,9 @@ Create now sass file `src/style/index.scss`
 Add following code to `index.scss`
 
 ```bash
-@import url("https://fonts.googleapis.com/css?family=Karla:weight@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Inconsolata");
 
-$font: "Karla", sans-serif;
+$font: "Inconsolata", sans-serif;
 $primary-color: #3e6f9e;
 
 body {
@@ -294,6 +294,11 @@ module.exports = {
 ```
 
 Now run `npm start`
+
+As you can see it loaded successfully 
+
+![image](https://user-images.githubusercontent.com/41279178/111147398-41382600-85ac-11eb-9bd1-47912f019ba9.png)
+
 
 Create folder webpack with three files inside.
 ![image](https://user-images.githubusercontent.com/41279178/111134311-4fcb1100-859d-11eb-8ae4-86c344ab8472.png)
