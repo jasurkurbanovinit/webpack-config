@@ -161,8 +161,139 @@ npm start
 Webpack enables use of loaders to preprocess files. This allows you to bundle any static resource way beyond JavaScript.
 
 ## Working with CSS
-To test CSS in webpack create a simple stylesheet in `src/style.css`
+To test CSS in webpack create a simple stylesheet in `src/style/style.css`
 
+Add some style to `style.css`
+```bash
+p {
+    font-size: 50px;
+    font-weight: bold;
+    color: green;
+}
+```
+
+Aslo update `index.html` file
+```bash
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Reader</title>
+</head>
+<body>
+    <div id="root">
+        <p>Hello world</p>
+    </div>
+</body>
+</html>
+```
+
+Before testing we need to install loaders.
+* style-loader- add exports of a module as style to DOM
+* css-loader - loads CSS file with resolved imports and returns CSS code
+
+Install loaders
+```bash
+yarn add -D css-loader style-loader
+```
+
+Now configure webpack.
+
+```bash
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+
+module.exports = {
+  mode:"development",
+  entry: { index: path.resolve(__dirname, "src/index.js") },
+  output: {
+        path: path.resolve(__dirname, "build")
+    },
+  module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"]
+            }
+        ]
+    },
+  plugins: [
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, "public/index.html")
+        })
+    ]
+};
+
+```
+
+Run `npm start` to see changes
+
+![image](https://user-images.githubusercontent.com/41279178/111145928-ab4fcb80-85aa-11eb-8ff3-d635329164a9.png)
+
+
+## Working with Sass
+
+Create now sass file `src/style/index.scss`
+
+Add following code to `index.scss`
+
+```bash
+@import url("https://fonts.googleapis.com/css?family=Karla:weight@400;700&display=swap");
+
+$font: "Karla", sans-serif;
+$primary-color: #3e6f9e;
+
+body {
+  font-family: $font;
+  color: $primary-color;
+}
+```
+
+Now import sass file inside ```index.js``` instead of `css` file
+
+```bash
+- import './style/index.css'
++ import './style/index.scss'
+```
+
+Now as we need above with CSS. We need to install Sass and Sass loader. 
+sass-loader - loads and compiles a SASS/SCSS file
+
+```bash 
+yarn add -D sass-loader sass
+```
+
+Update webopack config
+
+```bash
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+
+module.exports = {
+  mode:"development",
+  entry: { index: path.resolve(__dirname, "src/index.js") },
+  output: {
+        path: path.resolve(__dirname, "build")
+    },
+  module: {
+        rules: [
+            {
+                 test: /\.scss$/,
+                 use: ["style-loader", "css-loader", "sass-loader"]
+            }
+        ]
+    },
+  plugins: [
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, "public/index.html")
+        })
+    ]
+};
+```
+
+Now run `npm start`
 
 Create folder webpack with three files inside.
 ![image](https://user-images.githubusercontent.com/41279178/111134311-4fcb1100-859d-11eb-8ae4-86c344ab8472.png)
